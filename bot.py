@@ -35,7 +35,13 @@ async def on_message(message):
             return
         
         replied_user = replied_message.author
-        role_names = [role.name for role in replied_user.roles]
+        member = message.guild.get_member(replied_user.id)
+        
+        if member is None:
+            return
+        
+        
+        role_names = [role.name for role in member.roles]
         
         if "DoNotPing" in role_names and DNP_ENABLED:
             await message.channel.send(
