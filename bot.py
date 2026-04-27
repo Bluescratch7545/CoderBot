@@ -22,6 +22,7 @@ async def hello(ctx):
     
     
 DNP_ENABLED = True
+DNP_ROLE_ID = 1496186593000820876
 
 @bot.event
 async def on_message(message):
@@ -41,9 +42,8 @@ async def on_message(message):
             return
         
         
-        role_names = [role.name for role in member.roles]
         
-        if "DoNotPing" in role_names and DNP_ENABLED:
+        if any(role.id == DNP_ROLE_ID for role in member.roles) and DNP_ENABLED:
             await message.channel.send(
                 f"Please do not ping users with the No Ping role!"
             )
