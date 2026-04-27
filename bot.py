@@ -29,21 +29,29 @@ async def on_message(message):
     if message.author.bot:
         return
     
+    print("MESSAGE RECIEVED")
+    
     if message.reference:
+        print("THIS IS A REPLY")
         try:
             replied_message = await message.channel.fetch_message(message.reference.message_id)
-        except:
+        except Exception as e:
+            print("FAILED TO FETCH MESSAGE", + e)
             return
         
         replied_user = replied_message.author
+        print(f"REPLIED USER: {replied_user}")
         member = message.guild.get_member(replied_user.id)
+        print(f"MEMBER: {member}")
         
         if member is None:
+            print("MEMBER IS NONE")
             return
         
         
         
         if any(role.id == DNP_ROLE_ID for role in member.roles) and DNP_ENABLED:
+            print("ROLE_MATCHD!")
             await message.channel.send(
                 f"Please do not ping users with the No Ping role!"
             )
